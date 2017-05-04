@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.myjava.entity.User">
+ 	<resultMap type="com.myjava.entity.User" id="userRM">
+ 		<id property="id" column="id"/>
+ 		<result property="username" column="username"/>
+ 		<result property="password" column="password"/>
+ 		<result property="name" column="name"/>
+ 		<result property="locked" column="locked"/>
+ 		<result property="salt" column="salt"/>
+ 	</resultMap>
+ 	
+ 	<resultMap id="user_role_RM" type="com.myjava.entity.User" extends="userRM">
+ 		<!-- 用户下的多个角色 -->
+ 		<collection property="roles" ofType="com.myjava.entity.Role">
+ 			<result property="id" column="role_id"/>
+ 			<result property="roleName" column="role_name"/>
+ 			<result property="descr" column="descr"/>
+ 		</collection>
+ 	</resultMap>
+ 	<select id="get" parameterType="long" resultMap="userRM">
+ 		select * from user where id=#{id}
+ 	</select>
+ 	
+ 	<!-- 通过用户名查找用户 -->
+ 	<select id="getByUserName" parameterType="string" resultMap="userRM">
+ 		select * from user where username=#{username}
+ 	</select>
+ 	
+ 	<select id="getRolesByUsername" parameterType="string" resultMap="user_role_RM">
+ 		select u.id,r.ROLE_NAME from user u left join user_role ur on u.id=ur.user_id left join role r on ur.ROLE_ID=r.id where username=#{username}
+ 	</select>
+ 	
+ 	<select id="findAll" resultMap="user_role_RM" >
+ 		select u.*,r.id as role_id,r.ROLE_NAME,r.DESCR from user u left join user_role ur on u.id=ur.user_id left join role r on ur.ROLE_ID=r.id
+ 	</select>
+ 	<update id="update" parameterType="com.myjava.entity.User">
+ 		update user 
+ 		<set>
+ 			<if test="username !=null and username !=''">username=#{username},</if>
+ 			<if test="name !=null and name !=''">name=#{name},</if>
+ 		</set>
+ 		where id=#{id}
+ 	</update>
+	<insert id="insert" parameterType="com.myjava.entity.User">
+		insert into user(id,username,password,name,salt) values(
+			null,#{username},#{password},#{name},#{salt}
+		)
+	</insert>
+	<delete id="delete" parameterType="long">
+		delete from user where id=#{id}
+	</delete>
+	<delete id="deleteRoles" parameterType="string">
+		delete from user_role where user_id=#{userId}
+	</delete>
+	<insert id="collerationRoles" parameterType="map">
+		insert into user_role(user_id , role_id) values
+		<foreach collection="roleIds" item="roleId" separator=",">
+			(#{userId},#{roleId})
+		</foreach>
+	</insert>
+ </mapper>

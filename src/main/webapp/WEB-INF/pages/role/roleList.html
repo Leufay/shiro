@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<title>USERS</title>
+	<script src="bower_components/jquery/dist/jquery.min.js" th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<script type="text/javascript" th:src="@{/script/jquery.ztree.core.js}"></script>
+	<script type="text/javascript" th:src="@{/script/jquery.ztree.excheck.js}"></script>
+	<script src="#" th:src="@{/script/perm.js}"></script>
+	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+	<link href="#" rel="stylesheet" th:href="@{/style/metroStyle/metroStyle.css}">
+</head>
+<body>
+	<!-- 模态框 -->
+	<div class="modal fade" id="myModal" tabindex="-1" th:role="dialog" th:aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" th:role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" th:aria-label="Close">  
+	                    <span th:aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">正在为<span id="roleName" style="color:blue;font-size:20px;"></span>设置权限</h4>  
+	            </div> 
+	             	<input type="hidden" id="roleId">
+		            <div class="modal-body">  
+		               
+		                	<ul id="tree" class="ztree"></ul>
+		                
+		            </div>  
+	            <div class="modal-footer">  
+	                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>  
+	                <button type="button" class="btn btn-primary" id="submitRole">Save</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div>  
+	<!-- 模态框提示 -->
+	<div class="modal fade" id="myModal2" tabindex="-1" th:role="dialog" th:aria-labelledby="myModalLabel">  
+	    <div class="modal-dialog" th:role="document">  
+	        <div class="modal-content">  
+	            <div class="modal-header">  
+	                <button type="button" class="close" data-dismiss="modal" th:aria-label="Close">  
+	                    <span th:aria-hidden="true">×</span>  
+	                </button>  
+	                <h4 class="modal-title" id="myModalLabel">提示</h4>  
+	            </div> 
+		            <div class="modal-body">  
+		               设置成功！
+		            </div>  
+	            <div class="modal-footer">  
+	                <button type="button" class="btn btn-default" data-dismiss="modal" onclick="javascript:history.go(0) ;">Close</button>  
+	            </div>  
+	        </div>  
+	    </div>  
+	</div>  
+	<h2>角色列表</h2>
+		<table class="table table-striped table-hover table-bordered text-center">
+			<tr class="info">
+				<th class="col-md-2 text-center">角色名称</th>
+				<th class="col-md-1 text-center">角色描述</th>
+				<th class="col-md-1 text-center">拥有的权限</th>
+				<th class="col-md-2 text-center" th:remove="all">岗位</th>
+				<th class="col-md-3 text-center" th:remove="all">备注</th>
+				<th class="col-md-3 text-center" >相关操作</th>
+			</tr>
+			<tr th:each="role : ${roleList}" th:object="${role}">
+				<td th:text="*{id}" hidden="hidden"></td>
+				<td th:text="*{roleName}">aa</td>
+				<td th:text="*{descr}">aa</td>
+				<td th:text="IT部" th:remove="all">aa</td>
+				<td th:text="*{permNames}" th:title="*{permNames}">aa</td>
+				<td th:text="...." th:remove="all">aa</td>
+				<td>
+					<shiro:hasPermission name="system:role:update">
+						<a class="btn btn-info" href="#" th:href="@{toUpdate.action(id=${role.id})}">修改</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="system:role:setPerm">
+						<a class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal" >设置权限</a>
+					</shiro:hasPermission>
+					<shiro:hasPermission name="system:role:del">
+						<a class="btn btn-danger" href="#" th:href="@{delete.action(id=${role.id})}">删除</a>
+					</shiro:hasPermission>
+				</td>
+				<td th:text="*{permIds}" hidden="hidden"></td>
+			</tr>
+			<tr th:remove="all">
+				<td>aa</td>
+				<td>aa</td>
+				<td>aa</td>
+				<td>aa</td>
+				<td>aa</td>
+				<td>
+					<a class="btn btn-info" href="#">修改</a>
+					<a class="btn btn-danger" href="#">删除</a>
+				</td>
+			</tr>
+			<tr th:remove="all">
+				<td>aa</td>
+				<td>aa</td>
+				<td>aa</td>
+				<td>aa</td>
+				<td>aa</td>
+				<td>
+					<a class="btn btn-info" href="#">修改</a>
+					<a class="btn btn-danger" href="#">删除</a>
+				</td>
+			</tr>		
+		</table>
+		<shiro:hasPermission name="system:role:add">
+		<a class="btn btn-info" href="#" th:href="@{toAdd.action}">增加角色</a>
+		</shiro:hasPermission>
+</body>
+</html>

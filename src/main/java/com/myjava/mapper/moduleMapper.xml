@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.myjava.entity.Module">
+ 	<resultMap type="com.myjava.entity.Module" id="moduleRM">
+	 	<id property="id" column="mod_id"/>
+	 	<result property="name" column="mod_name"/>
+	 	<result property="url" column="mod_url"/>
+ 	</resultMap>
+ 	
+ 	<resultMap id="module_menu_RM" type="com.myjava.entity.Module" extends="moduleRM">
+ 		<collection property="children" ofType="com.myjava.entity.Meun">
+ 			<result property="id" column="menu_id"/>
+ 			<result property="name" column="menu_name"/>
+ 			<result property="url" column="menu_url"/>
+ 			<collection property="children" ofType="com.myjava.entity.Button">
+ 				<result property="id" column="button_id"></result>
+		 		<result property="name" column="button_name"/>
+		 		<result property="url" column="button_url"/>
+ 			</collection>
+ 		</collection>
+ 	</resultMap>
+ 	<!--  
+ 	<resultMap id="module_menu_button_RM" type="com.myjava.entity.Menu" extends="module_menu_RM">
+ 		<collection property="buttons" ofType="com.myjava.entity.Button">
+	 		<result property="buttonId" column="button_id"></result>
+	 		<result property="buttonName" column="button_name"/>
+	 		<result property="buttonUrl" column="button_url"/>
+ 		</collection>
+ 	</resultMap>
+ 	-->
+ 	<select id="findAll" resultMap="module_menu_RM">
+ 		select m.mod_id,m.MOD_NAME,m.mod_url,me.MENU_NAME,me.MENU_ID,me.URL as menu_url,b.BUTTON_ID,b.BUTTON_NAME,b.BUTTON_URL 
+ 			from module m left join menu me on m.mod_id=me.MOD_ID left join button b on me.MENU_ID = b.MENU_ID
+ 	</select>
+ </mapper>

@@ -1,0 +1,31 @@
+*{
+	margin: 0;
+	padding: 0;
+	font-size: 12px;
+	font-family: 'Microsoft Yahei';
+	color: #fff;
+}
+.CenterArea{
+	background : url('images/home.jpg');
+	background-size: cover;
+	padding-bottom: 500px;
+}
+.CenterArea form{
+	margin-top: 200px;
+	padding: 40px;    
+	border: 1px solid #00c1de;
+	border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0,198,226,0.5);
+}
+.CenterArea .form-group input:focus{
+	border-color: #ff4d3a;
+	box-shadow: 0 0 20px rgba(255,77,58,0.8);
+}
+.CenterArea form h3{
+	margin-top: 0;
+	margin-bottom: 20px;
+	color:#ccc;
+}
+.CenterArea form input{
+	width: 60%;
+}

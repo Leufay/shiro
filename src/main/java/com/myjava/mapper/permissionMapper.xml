@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.myjava.entity.Permission">
+ 	<resultMap id="permRM" type="com.myjava.entity.Permission">
+ 		<id property="id" column="perm_id"/>
+ 		<result property="permName" column="perm_name"/>
+ 		<result property="permNo" column="perm_no"/>
+ 		<result property="permType" column="perm_type"/>
+ 	</resultMap>
+ 	
+ 	
+ 	<insert id="insert" parameterType="com.myjava.entity.Permission">
+ 		insert into perm(perm_name,perm_type) values(
+ 			#{permName},#{permType}
+ 		)
+ 	</insert>
+ 	
+ 	<delete id="delete" parameterType="long">
+ 		delete from perm where perm_id=#{id}
+ 	</delete>
+ 	
+ 	<update id="update" parameterType="com.myjava.entity.Permission">
+ 		update perm 
+ 		<set>
+ 			<if test="permName!= null and permName!= ''">perm_name=#{permName},</if>
+ 			<if test="permType!= null and permType!= ''">perm_type=#{permType},</if>
+ 		</set>
+ 		where perm_id=#{id}
+ 	</update>
+ 	
+ 	<select id="findAll" resultMap="permRM">
+ 		select * from perm
+ 	</select>
+ 	
+ 	<select id="get" parameterType="long" resultMap="permRM">
+ 		select * from perm where perm_id=#{id}
+ 	</select>
+ 	
+ 	<select id="getPermissionsByUsername" resultMap="permRM" parameterType="string">
+ 		select p.* from user u,user_role ur,role r,role_perm rp,perm p where u.id=ur.USER_ID and ur.ROLE_ID=r.id and r.id=rp.ROLE_ID and rp.PERM_ID=p.PERM_ID and u.username=#{username}
+ 	</select>
+ 	
+ 
+ 	
+ 	<update id="correlationResources" parameterType="map">
+ 		update perm 
+ 		<set>
+ 			<if test="permUrl != null and permUrl!= ''">perm_no=#{permUrl}</if>
+ 		</set>
+ 		where perm_id=#{permId}
+ 	</update>
+ </mapper>

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN"      
+ "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+ <mapper namespace="com.myjava.entity.Role">
+ 	<resultMap id="roleRM" type="com.myjava.entity.Role">
+ 		<id property="id" column="id"/>
+ 		<result property="roleName" column="role_name"/>
+ 		<result property="descr" column="descr"/>
+ 		<result property="avialiable" column="avialiable"/>
+ 	</resultMap>
+ 	<resultMap id="role_perm_RM" type="com.myjava.entity.Role" extends="roleRM">
+ 		<collection property="permissions" ofType="com.myjava.entity.Permission">
+ 			 <id property="id" column="perm_id"></id>
+			 <result property="permName" column="perm_name"/>
+			 <result property="permType" column="perm_type"></result>
+ 		</collection>
+ 	</resultMap>
+ 	<select id="findAll" resultMap="role_perm_RM">
+ 		select r.*,p.* from role r left join role_perm rp on rp.role_id=r.id left join perm p on rp.perm_Id=p.PERM_ID
+ 	</select>
+ 	
+ 	<select id="get" parameterType="long" resultMap="roleRM">
+ 		select * from role where id=#{id}
+ 	</select>
+ 	
+ 	<update id="update" parameterType="com.myjava.entity.Role">
+ 		update role 
+ 		<set>
+ 			<if test="roleName !=null and roleName !=''">role_name=#{roleName},</if>
+ 			<if test="descr !=null and descr !=''">descr=#{descr},</if>
+ 		</set>
+ 		where id=#{id}
+ 	</update>
+	<insert id="insert" parameterType="com.myjava.entity.Role">
+		insert into role(id,role_name,descr) values(
+			null,#{roleName},#{descr}
+		)
+	</insert>
+	<delete id="delete" parameterType="long">
+		delete from role where id=#{id}
+	</delete>
+	<delete id="uncorrleationUsers" parameterType="long">
+		delete  from user_role where role_id =#{id}
+	</delete>
+	
+	<insert id="correlationPermissions" parameterType="map">
+		insert into role_perm(role_id,perm_id) values
+		<foreach collection="permIds" separator="," item="permId">
+			(#{roleId},#{permId})
+		</foreach>
+	</insert>
+	
+	<delete id="uncorrelationPermissions" parameterType="map">
+		delete from role_perm 
+		where 
+		<if test="roleId != null and roleId!= ''">role_id=#{roleId}</if>
+		<if test="permId != null and permId !=''">perm_id=#{permId}</if>
+	</delete>
+ </mapper>

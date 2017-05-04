@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:shiro="http://www.pollix.at/thymeleaf/shiro">
+<head>
+	<meta charset="utf-8">
+	<title>演示</title>
+	<script src="bower_components/jquery/dist/jquery.min.js" th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<link href="bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+	<link rel="stylesheet" type="text/css" href="main.css" th:href="@{/style/main.css}">
+	<script type="text/javascript" src="main.js" th:src="@{/script/main.js}"></script>
+</head>
+<body>
+	<div class="wrapper container-fluid">
+		<div class="side col-md-2 col-sm-4 col-xs-4">
+			<ul class="catalog list-group">
+				<li class="list-group-item">
+					<button><span class="glyphicon glyphicon-th"></span>系统管理<span class="glyphicon glyphicon-chevron-down"></span></button>
+					<ul class="catalog_cont list-group">
+						<shiro:hasPermission name="system:user:view">
+							<li data-toggle="users.html" th:data-toggle="@{/user/list.action}" class="list-group-item"><span class="glyphicon glyphicon-link"></span> <a href="#">用户管理</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="system:role:view">
+							<li data-toggle="other.html" th:data-toggle="@{/role/list.action}" class="list-group-item"><span class="glyphicon glyphicon-link"></span> <a href="#">角色管理</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="system:perm:view">
+							<li data-toggle="authority.html" th:data-toggle="@{/perm/list.action}" class="list-group-item"><span class="glyphicon glyphicon-link"></span> <a href="#">权限管理</a></li>
+						</shiro:hasPermission>
+						<shiro:hasPermission name="system:resource">
+							<li data-toggle="other.html" th:data-toggle="@{/resource/listUI.action}" class="list-group-item"><span class="glyphicon glyphicon-link"></span> <a href="#">资源设置</a></li>
+						</shiro:hasPermission>
+					</ul>
+				</li>
+				<li class="list-group-item">
+					<button><span class="glyphicon glyphicon-th"></span>流程管理<span class="glyphicon glyphicon-chevron-right"></span></button>
+					<ul class="catalog_cont list-group">
+						<li class="list-group-item"><span class="glyphicon glyphicon-link"></span><a href="">请假申请</a></li>
+						<li class="list-group-item"><span class="glyphicon glyphicon-link"></span><a href="">审批流转</a></li>
+					</ul>
+				</li>
+				<li class="list-group-item">
+					<button><span class="glyphicon glyphicon-th"></span>公司行政<span class="glyphicon glyphicon-chevron-right"></span></button>
+					<ul class="catalog_cont list-group">
+						<li class="list-group-item"><span class="glyphicon glyphicon-link"></span><a href="#">网上交流</a></li>
+						<li class="list-group-item"><span class="glyphicon glyphicon-link"></span><a href="#">知识管理</a></li>
+						<li class="list-group-item"><span class="glyphicon glyphicon-link"></span><a href="#">综合行政</a></li>
+						<li class="list-group-item"><span class="glyphicon glyphicon-link"></span><a href="#">人力资源</a></li>
+					</ul>				
+				</li>
+				
+				<li class="list-group-item">
+					<button><span class="glyphicon glyphicon-th"></span>个人设置<span class="glyphicon glyphicon-chevron-right"></span></button>
+					<ul class="catalog_cont list-group">
+						<li class="list-group-item"><span class="glyphicon glyphicon-link"></span> <a href="#">个人资料</a></li>
+						<li class="list-group-item"><span class="glyphicon glyphicon-link"></span> <a href="#">密码修改</a></li>
+					</ul>
+				</li>
+			</ul>
+		</div>
+		<div class="main col-md-10 col-sm-8 col-xs-8">
+			<div class="head row">
+				<h2 class="pull-left" id="nav">Welcome!</h2>
+				<p class="pull-right">
+					<span style="font-size: 20px;"class="glyphicon glyphicon-user" th:text="|你好,${#session.getAttribute('user').getUsername()}|">你好，管理员</span>&nbsp;&nbsp;<a data-toggle="views/change.html" class="glyphicon glyphicon-wrench" href="#" th:href="@{/login/logout.action}">退出登录</a>
+				</p>
+			</div>
+			<div class="top_box row">
+				<span class="alinks">
+					<a href="#"><span class="glyphicon glyphicon-comment"></span>消息</a>
+					<a href="#"><span class="glyphicon glyphicon-envelope"></span>邮件</a>
+					<a href="#"><span class="glyphicon glyphicon-hand-up"></span>待办事项(1)</a>
+				</span>
+				<span></span>
+				<p class="pull-right"><marquee scrollamount="2"></marquee></p>
+			</div>
+			<iframe src=""></iframe>
+		</div>
+	</div>
+</body>
+</html>

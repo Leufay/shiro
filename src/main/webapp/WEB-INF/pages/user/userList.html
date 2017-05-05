@@ -79,13 +79,13 @@
 				<td th:text="....">aa</td>
 				<td>
 					<shiro:hasPermission name="system:user:update">
-						<a class="btn btn-info" href="#" th:href="@{toUpdate.action(id=${user.id})}" >修改</a>
+						<a class="btn btn-info" href="#" th:href="@{toUpdate.action(id=${user.id})}">修改</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="system:user:del">
-						<a class="btn btn-danger" href="#" th:href="@{delete.action(id=${user.id})}"  >删除</a>
+						<a class="btn btn-danger" href="#" th:href="@{delete.action(id=${user.id})}">删除</a>
 					</shiro:hasPermission>
 					<shiro:hasPermission name="system:user:setRole">
-						<a class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal"   >分配角色</a>
+						<a class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal" >分配角色</a>
 					</shiro:hasPermission>
 				</td>
 				<td th:text="*{roleIds}" hidden="hidden"></td>

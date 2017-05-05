@@ -33,4 +33,13 @@ public class ResourceController {
 	public List<Module> listModules(ModelMap mm){
 		return (List<Module>) moduleService.findAll() ;
 	}
+	
+	@RequestMapping("/toAdd")
+	public String toAdd(){
+		return "resources/addUI";
+	}
+	@RequestMapping("/getSourceList")
+	public String[] getSourceList(String sourceType){
+		return null;
+	}
 }

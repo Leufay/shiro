@@ -18,6 +18,9 @@ public class User implements Serializable{
 	private Set<Role> roles ;		//用户所有的角色
 	private Boolean locked ;		//是否锁定
 	private String salt ; 			//密码加密的盐
+	/**
+	 * 页面辅助属性，用来拼接字符串
+	 */
 	private String roleNames="" ;
 	private String roleIds ="";
 	
@@ -31,21 +34,12 @@ public class User implements Serializable{
 				roleNames+=role.getRoleName();
 			}else{
 				this.roleIds+=role.getId()+",";
-				roleNames+=role.getRoleName()+"，";
+				roleNames+=role.getRoleName()+",";
 			}
 		}
 		return roleNames;
 	}
 	public String getRoleIds() {
-//		List<Role> roleList = new ArrayList<>(roles);
-//		for(int i = 0 ; i<roleList.size();i++){
-//			Role role = roleList.get(i);
-//			if(i==roleList.size()-1){
-//				this.roleIds+=role.getId();
-//			}else{
-//				this.roleIds+=role.getId()+"，";
-//			}
-//		}
 		return this.roleIds;
 	}
 	public Boolean getLocked() {

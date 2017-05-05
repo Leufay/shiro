@@ -63,6 +63,8 @@ var setting={
 					$.post("/learnShiro/user/setRoles.action",{ids:ids,userId:userId},function(data){
 						$("#myModal").modal("hide") ;
 						$("#myModal2").modal("show") ;
+						//当前页面刷新
+						history.go(0) ;
 					});
 				});
 			},

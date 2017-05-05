@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+	<title>增加资源</title>
+	<link href="../bower_components/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet"
+	th:href="@{/bower_components/bootstrap/dist/css/bootstrap.min.css}">
+	<script src="bower_components/jquery/dist/jquery.min.js" th:src="@{/bower_components/jquery/dist/jquery.min.js}"></script>
+	<script src="bower_components/bootstrap/dist/js/bootstrap.min.js" th:src="@{/bower_components/bootstrap/dist/js/bootstrap.min.js}"></script>
+	<script src="#" th:src="@{/script/addResource.js}"></script>
+</head>
+<body>
+<div class="container">
+	<h2>增加资源</h2>
+	<br>
+	<form th:action="@{add.action}" method="post" >
+		<div class="form-group" >
+			<label for="InputUserName">资源名</label>
+			<input class="form-control" type="text" placeholder="资源名称" name="name"/>
+		</div>
+		<!-- checkbox -->
+		<div class="checkbox" th:remove="all">
+			<label>
+				<input type="checkbox"> Check me out
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" id="inlineCheckbox1" value="option1"> Checkbox1
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" id="inlineCheckbox2" value="option2"> Checkbox2
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" id="inlineCheckbox3" value="option3"> Checkbox3
+			</label>
+			<label class="checkbox-inline">
+				<input type="checkbox" id="inlineCheckbox4" class="disabled" value="option4"> Checkbox4
+			</label>
+		</div>
+		
+		<!-- 单选 -->
+		<label for="InputUserName">资源类型</label>
+		<div class="radio">
+			<label>
+				<input type="radio" name="sourceType" id="optionsRadios1" value="module">
+				模块
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio" name="sourceType" id="optionsRadios2" value="menu">
+				菜单
+			</label>
+		</div>
+		<div class="radio">
+			<label>
+				<input type="radio" name="sourceType" id="optionsRadios2" value="button">
+				按钮
+			</label>
+		</div>
+			
+			<!-- 多选 -->
+		<div class="select">
+		<label for="InputUserName">上级菜单</label>
+			<select class="form-control" id="parentMenu">
+				<option selected="selected">请选择</option>
+				<option>系统管理</option>
+				<option>个人设置</option>
+			</select>
+		</div>
+		
+		<div class="form-group">
+			<label for="InputFile">资源图标</label>
+			<input type="file" id="InputFile">
+			<p class="help-block">可选...</p>
+		</div>
+		<div class="radio disabled" th:remove="all">
+			<label>
+				<input type="radio" name="optionsRadios" id="optionsRadios3" value="option3" disabled>
+				the option is disabled
+			</label>
+		</div>
+		<button type="submit" class="btn btn-primary">Submit</button>
+		<button type="button" class="btn btn-primary" onclick="javascript:history.go(-1)">Return</button>
+	</form>
+</div>
+</body>
+</html>

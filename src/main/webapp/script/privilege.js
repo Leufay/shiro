@@ -10,7 +10,7 @@ var setting={
 		data: {
 			simpleData: {
 				enable:true,
-				idKey: "url",
+				idKey: "url",				//设置checkbox提交时提交的是url而不是id
 			},
 			key:{
 				name:"name"
@@ -69,7 +69,6 @@ var setting={
 								buttonUrl = nodes[i].url ;
 								//当遍历到底层节点时进行一次拼接
 								permUrls[index++] = modUrl+menuUrl+buttonUrl ;
-								//拼接完对每个url重置
 							
 							}
 						}
@@ -84,10 +83,6 @@ var setting={
 							$("#myModal2").modal("show") ;
 						}
 					});
-//					$.post("/learnShiro/perm/setResources.action",{"permUrls":permUrls,"permId":permId},function(data){
-//						$("#myModal").modal("hide") ;
-//						$("#myModal2").modal("show") ;
-//					});
 				});
 			},
 			//回显角色

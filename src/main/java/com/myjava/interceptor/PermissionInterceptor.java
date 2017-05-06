@@ -27,8 +27,6 @@ public class PermissionInterceptor implements HandlerInterceptor{
 			//response.sendRedirect(request.getContextPath()+"/login/toLogin.action");					//未登录重定向到登录页面
 			return false ;
 		}
-		
-		
 		return true;
 	}
 

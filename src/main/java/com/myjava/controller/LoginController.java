@@ -47,6 +47,7 @@ public class LoginController {
 	@RequestMapping("/login")
 	public String login(User user, ModelMap mm , HttpSession session,HttpServletResponse response,RedirectAttributes attrs ) {
 		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername() , user.getPassword()) ;
+		token.setRememberMe(true);
 		//获取主体
 		Subject subject = SecurityUtils.getSubject() ;
 		//subject.login(token);

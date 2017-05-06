@@ -78,6 +78,8 @@ public class UserRealm extends AuthorizingRealm{
 			}
 			info.addRoles(roleNames);
 			info.setStringPermissions(stringPermissions);
+			//将用户权限信息放入shiro session中
+			//TODO 放入session中后怎么及时更新
 			session.setAttribute("authorizationInfo", info);
 		}else{
 			info = (SimpleAuthorizationInfo) session.getAttribute("authorizationInfo") ;

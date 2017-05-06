@@ -68,7 +68,10 @@
 				<th class="col-md-1 text-center">所属部门</th>
 				<th class="col-md-2 text-center">角色</th>
 				<th class="col-md-3 text-center">备注</th>
+				<!-- 当前用户如果仅有查看权限则此td不显示 -->
+				<shiro:hasAnyPermissions name="system:user:del,system:user:update,system:user:setRole">
 				<th class="col-md-3 text-center">相关操作</th>
+				</shiro:hasAnyPermissions>
 			</tr>
 			<tr th:each="user : ${userList}" th:object="${user}">
 				<td th:text="*{id}" hidden="hidden"></td>
@@ -77,6 +80,8 @@
 				<td th:text="IT部">aa</td>
 				<td th:text="*{roleNames}">aa</td>
 				<td th:text="....">aa</td>
+				<!-- 当前用户如果仅有查看权限则此td不显示 -->
+				<shiro:hasAnyPermissions name="system:user:del,system:user:update,system:user:setRole">
 				<td>
 					<shiro:hasPermission name="system:user:update">
 						<a class="btn btn-info" href="#" th:href="@{toUpdate.action(id=${user.id})}">修改</a>
@@ -88,6 +93,7 @@
 						<a class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal" >分配角色</a>
 					</shiro:hasPermission>
 				</td>
+				</shiro:hasAnyPermissions>
 				<td th:text="*{roleIds}" hidden="hidden"></td>
 			</tr>
 			<tr th:remove="all">

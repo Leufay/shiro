@@ -28,6 +28,8 @@
 		<!-- 安全管理器 -->
 		<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
 			<property name="realm" ref="userRealm"/>
+			
+			<property name="rememberMeManager" ref="remembermeManager"/>
 		</bean>
 		<!-- 密码匹配器 -->
 		<bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
@@ -37,6 +39,28 @@
 		</bean>
 		<bean id="shiro-filter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 			<property name="securityManager" ref="securityManager"/>
+		</bean>
+		
+		<!-- rememberme功能配置 -->
+		
+		<!-- rememberme 管理器 -->
+		<bean id="remembermeManager" class="org.apache.shiro.web.mgt.CookieRememberMeManager">
+			<property name="cookie" ref="rememberMeCookie"></property>
+		</bean>
+		
+		<!-- 会话Cookie模板 -->  
+		<bean id="sessionIdCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+		    <constructor-arg value="sid"/>  
+		    <!-- most of the cookies ever used by Shiro should be as secure as possible. -->
+		    <property name="httpOnly" value="true"/>  
+		    <!-- -1 表示关闭浏览器时cookie失效 -->
+		    <property name="maxAge" value="-1"/>  
+		</bean>  
+		
+		<bean id="rememberMeCookie" class="org.apache.shiro.web.servlet.SimpleCookie">  
+		    <constructor-arg value="rememberMe"/>  
+		    <property name="httpOnly" value="true"/>  
+		    <property name="maxAge" value="2592000"/><!-- 30天 -->  
 		</bean>
 		
 </beans>

@@ -68,7 +68,10 @@
 				<th class="col-md-1 text-center" th:remove="all">所属部门</th>
 				<th class="col-md-2 text-center" th:remove="all">角色</th>
 				<th class="col-md-3 text-center">权限标识</th>
+					<!-- 当前用户如果仅有查看权限则此td不显示 -->
+				<shiro:hasAnyPermissions name="system:perm:del,system:perm:update,system:perm:setResource">
 				<th class="col-md-3 text-center">相关操作</th>
+				</shiro:hasAnyPermissions>
 			</tr>
 			<tr th:each="perm,permStat : ${permList}" th:object="${perm}">
 				<td th:text="*{id}" hidden="hidden"></td>
@@ -77,6 +80,8 @@
 				<td th:text="IT部" th:remove="all">aa</td>
 				<td th:remove="all">aa</td>
 				<td th:text="*{permNo}">aa</td>
+					<!-- 当前用户如果仅有查看权限则此td不显示 -->
+				<shiro:hasAnyPermissions name="system:perm:del,system:perm:update,system:perm:setResource">
 				<td>
 					<shiro:hasPermission name="system:perm:update">
 					<a class="btn btn-info" href="#" th:href="@{toUpdate.action(id=${perm.id})}">修改</a>
@@ -88,6 +93,7 @@
 					<a class="btn btn-info" href="#" data-toggle="modal" data-target="#myModal" >分配资源</a>
 					</shiro:hasPermission>
 				</td>
+				</shiro:hasAnyPermissions>
 			</tr>
 			<tr th:remove="all">
 				<td>aa</td>

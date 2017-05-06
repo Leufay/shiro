@@ -61,7 +61,10 @@
 				<th class="col-md-1 text-center">拥有的权限</th>
 				<th class="col-md-2 text-center" th:remove="all">岗位</th>
 				<th class="col-md-3 text-center" th:remove="all">备注</th>
+				<!-- 当前用户如果仅有查看权限则此td不显示 -->
+				<shiro:hasAnyPermissions name="system:role:del,system:role:update,system:role:setPerm">
 				<th class="col-md-3 text-center" >相关操作</th>
+				</shiro:hasAnyPermissions>
 			</tr>
 			<tr th:each="role : ${roleList}" th:object="${role}">
 				<td th:text="*{id}" hidden="hidden"></td>
@@ -70,6 +73,8 @@
 				<td th:text="IT部" th:remove="all">aa</td>
 				<td th:text="*{permNames}" th:title="*{permNames}">aa</td>
 				<td th:text="...." th:remove="all">aa</td>
+					<!-- 当前用户如果仅有查看权限则此td不显示 -->
+				<shiro:hasAnyPermissions name="system:role:del,system:role:update,system:role:setPerm">
 				<td>
 					<shiro:hasPermission name="system:role:update">
 						<a class="btn btn-info" href="#" th:href="@{toUpdate.action(id=${role.id})}">修改</a>
@@ -81,6 +86,7 @@
 						<a class="btn btn-danger" href="#" th:href="@{delete.action(id=${role.id})}">删除</a>
 					</shiro:hasPermission>
 				</td>
+					</shiro:hasAnyPermissions>
 				<td th:text="*{permIds}" hidden="hidden"></td>
 			</tr>
 			<tr th:remove="all">

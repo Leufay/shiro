@@ -18,6 +18,9 @@ public class MyCredentialsMatcher extends HashedCredentialsMatcher {
 	@Override
 	public boolean doCredentialsMatch(AuthenticationToken token,
 			AuthenticationInfo info) {
-		return super.doCredentialsMatch(token, info) ;
+		if(!super.doCredentialsMatch(token, info)){
+			return false ;
+		}
+		return  true;
 	}
 }

@@ -26,5 +26,12 @@
 		<!-- Spring容器扫描DaoBean -->
 		<context:component-scan base-package="com.myjava.dao"/>
 		<import resource="applicationContext-db.xml"/>
+		<!-- 自定义conversionService 
+		<bean id="dateConversionService" class="com.myjava.conversion.DateConversionService">
+		</bean>
 		
+		<bean id="standardDialect" class="org.thymeleaf.standard.StandardDialect">
+			<property name="conversionService" ref="dateConversionService"/>
+		</bean>
+		-->
 </beans>

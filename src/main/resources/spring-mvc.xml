@@ -30,7 +30,7 @@
 			<!-- 视图解析器的配置文件 -->
 			<import resource="applicationContext-Thymeleaf.xml"/>
 			
-			<!-- 拦截器 -->
+			<!-- 拦截器
 			<mvc:interceptors>
 				<mvc:interceptor>
 					<mvc:mapping path="/**"/>
@@ -41,7 +41,7 @@
 					<bean class="com.myjava.interceptor.PermissionInterceptor"></bean>
 				</mvc:interceptor>
 			</mvc:interceptors>
-				
+			 -->
 				<!-- shiro权限注解 -->
 			<aop:config proxy-target-class="true"></aop:config>  
 			<bean class="  

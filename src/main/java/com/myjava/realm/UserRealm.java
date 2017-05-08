@@ -35,6 +35,8 @@ public class UserRealm extends AuthorizingRealm{
 	private UserService userService  ;
 	@Autowired
 	private PermissionService permissionService ;
+	//保存当前用户的授权信息
+	private SimpleAuthorizationInfo info = new SimpleAuthorizationInfo() ;
 	/**
 	 * 获取用户授权信息
 	 */
@@ -43,41 +45,20 @@ public class UserRealm extends AuthorizingRealm{
 			PrincipalCollection principals) {
 		Subject subject = SecurityUtils.getSubject() ;
 		Session session = subject.getSession() ;
-		SimpleAuthorizationInfo info = null ;
 		//判断当前shiro session 中有没有当前subject的授权信息
 		//如果没有则去数据库查询，并且将查询到的授权信息放入到shiro session中，否则直接从session中取
 		if(session.getAttribute("authorizationInfo")==null){
 			System.out.println("-----------------当前session无授权信息，查询数据库---------------------");
-			info = new SimpleAuthorizationInfo() ;
 			//获取用户名
 			String username = (String) principals.getPrimaryPrincipal() ;
-			Set<String> stringPermissions = new HashSet<>() ;
-			//根据用户名在数据库中查找对应的权限信息
-			List<Permission> permissions = (List<Permission>) permissionService.findPermissionsByUsername(username) ;
-			User u = userService.getRolesByUsername(username) ;
-			Set<Role> roles = u.getRoles() ;
-			Set<String> roleNames = new HashSet<>() ;
-			//判断角色
-			if(roles.size()!=0){
-				for (Role role : roles) {
-					roleNames.add(role.getRoleName()) ;
-				}
-			}
-			//遍历permission
-			if(permissions.size()!=0){
-				for(Permission p : permissions){
-					String permStr = p.getPermNo() ;
-					//如果permission权限标识有逗号则进行分割再放到set集合中
-					if(permStr.contains(",")){
-						Set<String> permsSet = StringUtils.convertStringToSet(permStr, ",") ;
-						stringPermissions.addAll(permsSet);
-					}else{
-						stringPermissions.add(permStr) ;
-					}
-				}
-			}
-			info.addRoles(roleNames);
-			info.setStringPermissions(stringPermissions);
+			/**
+			 * 将用户角色信息放入SimplAuthorizationInfo
+			 */
+			this.addRoles(username);
+			/**
+			 * 将用户权限信息放入SimpleAuthorizationInfo中
+			 */
+			this.addPermissions(username);
 			//将用户权限信息放入shiro session中
 			//TODO 放入session中后怎么及时更新
 			session.setAttribute("authorizationInfo", info);
@@ -105,4 +86,44 @@ public class UserRealm extends AuthorizingRealm{
 		return new SimpleAuthenticationInfo(accountUser.getUsername(),accountUser.getPassword(),new SimpleByteSource(accountUser.getSalt()),getName());
 	}
 	
+	/**
+	 * 设置角色信息
+	 * @param username 当前用户用户名
+	 */
+	public void addRoles(String username){
+		User u = userService.getRolesByUsername(username) ;
+		Set<Role> roles = u.getRoles() ;
+		Set<String> roleNames = new HashSet<>() ;
+		//判断角色
+		if(roles.size()!=0){
+			for (Role role : roles) {
+				roleNames.add(role.getRoleName()) ;
+			}
+			info.addRoles(roleNames);
+		}
+	}
+	
+	/**
+	 * 设置权限信息
+	 * @param username 当前用户用户名
+	 */
+	public void addPermissions(String username){
+		Set<String> stringPermissions = new HashSet<>() ;
+		//根据用户名在数据库中查找对应的权限信息
+		List<Permission> permissions = (List<Permission>) permissionService.findPermissionsByUsername(username) ;
+		//遍历permission
+		if(permissions.size()!=0){
+			for(Permission p : permissions){
+				String permStr = p.getPermNo() ;
+				//如果permission权限标识有逗号则进行分割再放到set集合中
+				if(permStr.contains(",")){
+					Set<String> permsSet = StringUtils.convertStringToSet(permStr, ",") ;
+					stringPermissions.addAll(permsSet);
+				}else{
+					stringPermissions.add(permStr) ;
+				}
+			}
+			info.setStringPermissions(stringPermissions);
+		}
+	}
 }

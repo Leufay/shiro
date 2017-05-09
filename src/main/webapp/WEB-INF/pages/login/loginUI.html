@@ -41,7 +41,7 @@
 <body>
 	<div>
 		<div class="CenterArea row">
-			<form class="col-md-4 col-md-offset-4" method="post" action="#" onsubmit="return checkSubmit();" th:action="@{/login/login.action}">
+			<form class="col-md-4 col-md-offset-4" method="post" action="#" onsubmit="return checkSubmit();" th:action="@{/login/index.action}">
 				<h3>欢迎登录</h3>
 				<div class="form-group">
 					<label>用户名：</label>
@@ -52,7 +52,8 @@
 					<input type="password" class="form-control" id="exampleInputPassword1" name="password" placeholder="Password" onblur="check(this,'密码')">
 				</div>
 				<button type="submit" class="btn btn-info">登录</button>
-				<a class="btn btn-info" th:href="@{/login/toRegister.action}" href="#">注册</a><label id="msg" class="error" th:text="${msg}"></label>
+				<a class="btn btn-info" th:href="@{/login/toRegister.action}" href="#">注册</a><label id="msg" class="error" th:text="${#request.getAttribute('msg')}"></label>
+				<input type="checkbox" name="rememberMe"/>
 			</form>
 		</div>
 	</div>

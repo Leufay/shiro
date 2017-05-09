@@ -27,7 +27,8 @@ public class LoginController {
 	 * @return
 	 */
 	@RequestMapping("/toLogin")
-	public String toLogin() {
+	public String toLogin(RedirectAttributes attrs) {
+		attrs.addFlashAttribute("msg","验证失败") ;
 		return "login/loginUI";
 	}
 	
@@ -36,25 +37,25 @@ public class LoginController {
 	 * <br>已经委托给FormAuthenticationFilter处理
 	 * 此方法当登录认证失败会执行
 	 */
-	@RequestMapping("/login")
-	public String login(User user, ModelMap mm , HttpSession session,HttpServletResponse response,RedirectAttributes attrs ) {
-//		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername() , user.getPassword()) ;
-//		token.setRememberMe(true);
-//		//获取主体
-//		Subject subject = SecurityUtils.getSubject() ;
-//		//subject.login(token);
-//		try {
-//			//登录
-//			subject.login(token);
-//		} catch (AuthenticationException e) {
-//			System.out.println("---------------用户名或者密码错误-------------------");
-//			attrs.addFlashAttribute("msg","用户名或密码错误") ;
-//			e.printStackTrace();
-//			return "redirect:toLogin.action" ;
-//		}
-//		subject.getSession().setAttribute("user", userService.getByUserName(user.getUsername()));
-		return "redirect:index.action";
-	}
+//	@RequestMapping("/login")
+//	public String login(User user, ModelMap mm , HttpSession session,HttpServletResponse response,RedirectAttributes attrs ) {
+////		UsernamePasswordToken token = new UsernamePasswordToken(user.getUsername() , user.getPassword()) ;
+////		token.setRememberMe(true);
+////		//获取主体
+////		Subject subject = SecurityUtils.getSubject() ;
+////		//subject.login(token);
+////		try {
+////			//登录
+////			subject.login(token);
+////		} catch (AuthenticationException e) {
+////			System.out.println("---------------用户名或者密码错误-------------------");
+////			attrs.addFlashAttribute("msg","用户名或密码错误") ;
+////			e.printStackTrace();
+////			return "redirect:toLogin.action" ;
+////		}
+////		subject.getSession().setAttribute("user", userService.getByUserName(user.getUsername()));
+//		return "redirect:index.action";
+//	}
 	
 	@RequestMapping("/index.action")
 	public String toIndex(HttpServletRequest request){

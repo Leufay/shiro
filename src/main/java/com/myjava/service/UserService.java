@@ -51,5 +51,4 @@ public interface UserService {
 	
 	public void deleteById(Serializable id) ;
 	
-	public User getRolesByUsername(String username) ;
 }	

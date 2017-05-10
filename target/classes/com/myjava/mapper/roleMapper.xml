@@ -19,6 +19,12 @@
  		select r.*,p.* from role r left join role_perm rp on rp.role_id=r.id left join perm p on rp.perm_Id=p.PERM_ID
  	</select>
  	
+ 	
+ 	<select id="getRolesByUsername" parameterType="string" resultType="string">
+ 		select r.ROLE_NAME from user u left join user_role ur on u.id=ur.user_id left join role r on ur.ROLE_ID=r.id where username=#{username}
+ 	</select>
+ 	
+ 	
  	<select id="get" parameterType="long" resultMap="roleRM">
  		select * from role where id=#{id}
  	</select>

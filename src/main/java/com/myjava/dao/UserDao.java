@@ -10,6 +10,5 @@ public interface UserDao extends BaseDao<User>{
 	public User getByUserName(String username) ;
 	public void uncollerationRoles(Serializable userId);
 	public void collerationRoles(Map<Serializable,Object> param);
-	public User getRolesByUsername(String username);
 	
 }

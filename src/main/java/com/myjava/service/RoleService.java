@@ -2,6 +2,7 @@ package com.myjava.service;
 
 import java.io.Serializable;
 import java.util.Collection;
+import java.util.List;
 
 import com.myjava.entity.Role;
 
@@ -23,4 +24,11 @@ public interface RoleService {
 	 * @param permissionIds
 	 */
 	public void unCorrelationPermissions(Serializable roleId ,Serializable[] permissionIds);
+	
+	/**
+	 * 根据用户名称查找其所有的角色
+	 * @param username
+	 * @return	用户所拥有的的角色名称的List
+	 */
+	public List<String> getRolesByUsername(String username) ;
 }

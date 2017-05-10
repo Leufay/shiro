@@ -66,9 +66,6 @@ public class UserServiceImpl implements UserService{
 		userDao.delete(id);
 	}
 
-	@Override
-	public User getRolesByUsername(String username) {
-		return userDao.getRolesByUsername(username);
-	}
+	
 
 }

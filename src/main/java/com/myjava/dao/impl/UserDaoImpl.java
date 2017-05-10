@@ -26,10 +26,7 @@ public class UserDaoImpl extends BaseDaoImpl<User> implements UserDao{
 		this.uncollerationRoles(param.get("userId")+"");
 		getSqlSession().update(getNameSpace()+".collerationRoles", param) ;
 	}
-	@Override
-	public User getRolesByUsername(String username) {
-		return getSqlSession().selectOne(getNameSpace()+".getRolesByUsername" , username);
-	}
+	
 	/**
 	 * 解除用户--角色关联
 	 */

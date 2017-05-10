@@ -1,6 +1,7 @@
 package com.myjava.dao;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import com.myjava.entity.Role;
@@ -18,4 +19,6 @@ public interface RoleDao extends BaseDao<Role>{
 	 * @param permissionIds
 	 */
 	public void uncorrelationPermissions(Map<Serializable,Object> param) ;
+	
+	public List<String> getRolesByUsername(String username);
 }

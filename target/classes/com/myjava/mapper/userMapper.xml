@@ -28,9 +28,7 @@
  		select * from user where username=#{username}
  	</select>
  	
- 	<select id="getRolesByUsername" parameterType="string" resultMap="user_role_RM">
- 		select u.id,r.ROLE_NAME from user u left join user_role ur on u.id=ur.user_id left join role r on ur.ROLE_ID=r.id where username=#{username}
- 	</select>
+ 	
  	
  	<select id="findAll" resultMap="user_role_RM" >
  		select u.*,r.id as role_id,r.ROLE_NAME,r.DESCR from user u left join user_role ur on u.id=ur.user_id left join role r on ur.ROLE_ID=r.id

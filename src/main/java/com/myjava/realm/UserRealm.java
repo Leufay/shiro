@@ -4,7 +4,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -13,16 +12,14 @@ import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
-import org.apache.shiro.session.Session;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.subject.Subject;
 import org.apache.shiro.util.SimpleByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.myjava.entity.Permission;
-import com.myjava.entity.Role;
 import com.myjava.entity.User;
 import com.myjava.service.PermissionService;
+import com.myjava.service.RoleService;
 import com.myjava.service.UserService;
 import com.myjava.utils.StringUtils;
 /**
@@ -32,7 +29,9 @@ import com.myjava.utils.StringUtils;
  */
 public class UserRealm extends AuthorizingRealm{
 	@Autowired
-	private UserService userService  ;
+	private RoleService roleService  ;
+	@Autowired
+	private UserService userService ;
 	@Autowired
 	private PermissionService permissionService ;
 	//保存当前用户的授权信息
@@ -43,13 +42,6 @@ public class UserRealm extends AuthorizingRealm{
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(
 			PrincipalCollection principals) {
-		Subject subject = SecurityUtils.getSubject() ;
-		Session session = subject.getSession() ;
-		//判断当前shiro session 中有没有当前subject的授权信息
-		//如果没有则去数据库查询，并且将查询到的授权信息放入到shiro session中，否则直接从session中取
-		if(session.getAttribute("authorizationInfo")==null){
-			System.out.println("-----------------当前session无授权信息，查询数据库---------------------");
-			//获取用户名
 			String username = (String) principals.getPrimaryPrincipal() ;
 			/**
 			 * 将用户角色信息放入SimplAuthorizationInfo
@@ -59,12 +51,7 @@ public class UserRealm extends AuthorizingRealm{
 			 * 将用户权限信息放入SimpleAuthorizationInfo中
 			 */
 			this.addPermissions(username);
-			//将用户权限信息放入shiro session中
-			//TODO 放入session中后怎么及时更新
-			session.setAttribute("authorizationInfo", info);
-		}else{
-			info = (SimpleAuthorizationInfo) session.getAttribute("authorizationInfo") ;
-		}
+
 		return info ;
 	}
 	/**
@@ -91,16 +78,9 @@ public class UserRealm extends AuthorizingRealm{
 	 * @param username 当前用户用户名
 	 */
 	public void addRoles(String username){
-		User u = userService.getRolesByUsername(username) ;
-		Set<Role> roles = u.getRoles() ;
-		Set<String> roleNames = new HashSet<>() ;
-		//判断角色
-		if(roles.size()!=0){
-			for (Role role : roles) {
-				roleNames.add(role.getRoleName()) ;
-			}
-			info.addRoles(roleNames);
-		}
+		//根据用户名查找其所有的角色
+		List<String> roleNames = roleService.getRolesByUsername(username) ;
+		info.addRoles(roleNames);
 	}
 	
 	/**

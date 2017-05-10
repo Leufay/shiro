@@ -1,6 +1,7 @@
 package com.myjava.dao.impl;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Repository;
@@ -40,5 +41,10 @@ public class RoleDaoImpl extends BaseDaoImpl<Role> implements RoleDao{
 		//先解除用户角色之间的关联
 		getSqlSession().delete(getNameSpace()+".uncorrleationUsers",id);
 		super.delete(id);
+	}
+	
+	@Override
+	public List<String> getRolesByUsername(String username) {
+		return getSqlSession().selectList(getNameSpace()+".getRolesByUsername" , username);
 	}
 }

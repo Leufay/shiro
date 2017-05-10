@@ -16,6 +16,7 @@ import com.myjava.service.ModuleService;
  * @author Mrlxf
  *
  */
+@Deprecated
 public class PermissionListener implements ServletContextListener{
 
 	@Override
